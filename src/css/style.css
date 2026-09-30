@@ -250,6 +250,13 @@ fieldset legend { margin-bottom: 8px; }
 .preview .profile { height: 170px; }
 .preview-empty { min-height: 300px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); }
 
+/* submit: send box */
+.send-box { gap: 16px; }
+.email-addr { display: block; padding: 12px 14px; border-radius: 8px; background: var(--sunk); font-size: 18px; font-weight: 500; overflow-wrap: anywhere; user-select: all; }
+.checklist { margin: 6px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.attach-reminder { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--accent-hover); }
+.clean-box { padding: 14px 16px; border-radius: 10px; border: 1px solid var(--line-strong); display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+
 /* ---------- 404 ---------- */
 .notfound { max-width: 640px; margin: 80px auto; padding: 0 24px; display: flex; flex-direction: column; gap: 16px; }
 

@@ -11,13 +11,13 @@ and get distance, climbing, climbs and the elevation profile. Italian first, wit
 
 ## Come aggiungere una traccia (per gli amministratori)
 
-1. Ricevi il file `.gpx` (dalla pagina «Proponi una traccia» arriva già pulito e con un nome corretto, es. `giro-del-lago.gpx`).
+1. Ricevi il file `.gpx` per email (all'indirizzo `adminEmail` di `config.json`). Se il socio ha allegato la **copia pulita**, ha già il nome giusto (es. `giro-del-lago.gpx`). Altrimenti aprila tu nella pagina «Proponi una traccia» del sito e premi **Scarica la copia pulita**: toglie orari e dati del sensore e dà al file il nome corretto.
 2. Su GitHub apri la cartella **`tracks/`** → **Add file → Upload files** → trascina il file.
 3. In fondo scegli **«Create a new branch for this commit and start a pull request»** → **Propose changes** → **Create pull request**.
 4. Aspetta il controllo automatico (circa 20 secondi). Se è verde ✅, premi **Merge pull request**.
 5. Dopo circa un minuto la traccia è online su `https://muflones.github.io/tracce/<nome-del-file>/`.
 
-Se il controllo è rosso ❌, apri **Details**: la spiegazione è in cima. Il caso più comune è un file con orari o dati del sensore (frequenza cardiaca…): caricalo nella pagina «Proponi una traccia» del sito e usa il file pulito che scarica. Finché il controllo non è verde la pull request non si può unire, quindi nessun file «sporco» finisce nel sito.
+Se il controllo è rosso ❌, apri **Details**: la spiegazione è in cima. Il caso più comune è un file con orari o dati del sensore (frequenza cardiaca…): caricalo nella pagina «Proponi una traccia» del sito e usa **Scarica la copia pulita**. Finché il controllo non è verde la pull request non si può unire, quindi nessun file «sporco» finisce nel sito.
 
 **Pull request dai soci:** funzionano allo stesso modo: controllo verde → **Merge**.
 
@@ -98,7 +98,7 @@ The “added” date comes from the date the file was first committed. Climbing 
 
 ## Privacy and security
 
-- Uploaded files are read only in the visitor's browser; the submit page produces a cleaned file before anything is sent.
+- The submit page only reads the file in the visitor's browser to preview it — nothing is uploaded. Members email the track to the admin address in `config.json`, ideally as the cleaned copy the page can download.
 - The files in `tracks/` are public in this repository, so the check **fails** on any GPX that contains timestamps, sensor/device data (`<extensions>`) or an email address. With the ruleset above, such a file can't be merged into `main`.
 - All text from GPX files is inserted as plain text, never as HTML. Links are only allowed when they start with `https://`.
 - Fonts and the map library are hosted with the site: visitors only contact GitHub and the map tile servers. A Content-Security-Policy restricts everything else.

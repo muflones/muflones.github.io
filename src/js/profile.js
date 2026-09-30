@@ -16,10 +16,11 @@ export function sparkline(es, color = '#C2410C', { w = 360, h = 44 } = {}) {
   return box;
 }
 
-function niceStep(span, target) {
+function niceStep(span, target, { quarter = true } = {}) {
   const raw = span / target;
   const pow = 10 ** Math.floor(Math.log10(raw));
   const n = raw / pow;
+  if (!quarter) return (n < 1.5 ? 1 : n < 3.5 ? 2 : n < 7.5 ? 5 : 10) * pow; // km axis: 1, 2, 5, 10…
   return (n < 1.5 ? 1 : n < 3.5 ? 2.5 : n < 7.5 ? 5 : 10) * pow;
 }
 
@@ -64,7 +65,7 @@ export function interactiveProfile(container, data, opts = {}) {
         svg('text', { x: pad.l - 8, y: Y(e) + 4, 'text-anchor': 'end', 'font-size': 11, fill: '#585D55', 'font-family': 'IBM Plex Mono, monospace' }, fmtNum(e)),
       );
     }
-    const kmStep = niceStep(total / 1000, W < 600 ? 4 : 10);
+    const kmStep = niceStep(total / 1000, Math.max(3, Math.floor(W / 110)), { quarter: false });
     for (let k = 0; k <= total / 1000 + 1e-6; k += kmStep) {
       grid.append(
         svg('line', { x1: X(k * 1000), x2: X(k * 1000), y1: H - pad.b, y2: H - pad.b + 4, stroke: '#1B1E1A' }),

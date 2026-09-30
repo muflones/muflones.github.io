@@ -43,7 +43,7 @@
   </div>
 
   <div class="submit-grid">
-    <form class="form" id="form" novalidate>
+    <div class="form" id="left">
       <div id="alert" role="alert"></div>
 
       <label class="dropzone" id="dropzone" for="file">
@@ -54,68 +54,51 @@
       </label>
       <input type="file" id="file" accept=".gpx,application/gpx+xml" class="visually-hidden">
 
-      <div id="details" hidden>
-        <div class="form">
-          <div class="file-chip">
-            <span class="file-badge">GPX</span>
-            <div><strong id="file-name"></strong><span class="mono muted" style="font-size:12px" id="file-info"></span></div>
-            <button type="button" class="btn" id="replace" data-i18n="replace">Sostituisci</button>
-          </div>
-
-          <div class="row2">
-            <div class="field">
-              <label for="name" data-i18n="fName">Nome della traccia</label>
-              <input id="name" class="input" type="text" maxlength="120" required>
-              <span class="help" data-i18n="fNameHelp"></span>
-            </div>
-            <div class="field">
-              <label for="author" data-i18n="fAuthor">Autore del percorso</label>
-              <input id="author" class="input" type="text" maxlength="120" required>
-              <span class="help" data-i18n="fAuthorHelp"></span>
-            </div>
-          </div>
-
-          <fieldset>
-            <legend data-i18n="fShape">Forma del percorso</legend>
-            <div class="row2">
-              <label class="option"><input type="radio" name="shape" value="loop"><span><strong data-i18n="loop">Anello</strong><span id="shape-loop-help"></span></span></label>
-              <label class="option"><input type="radio" name="shape" value="p2p"><span><strong data-i18n="p2p">Da punto a punto</strong><span data-i18n="shapeP2PHelp"></span></span></label>
-            </div>
-          </fieldset>
-
-          <div class="field">
-            <label for="tag-input" data-i18n="fTags">Tag</label>
-            <div class="tags" id="tags"><input id="tag-input" type="text" maxlength="30" data-i18n-ph="tagsPh"></div>
-          </div>
-
-          <div class="field">
-            <label for="notes" data-i18n="fNotes">Note per gli altri runner</label>
-            <textarea id="notes" class="input" rows="2" maxlength="1500" data-i18n-ph="notesPh"></textarea>
-          </div>
-
-          <fieldset>
-            <legend data-i18n="fRoute">Come arriva sul sito?</legend>
-            <div class="form" style="gap:10px">
-              <div class="option" style="display:block">
-                <label style="display:flex;gap:10px;cursor:pointer"><input type="radio" name="route" value="admin" checked style="margin:3px 0 0;width:16px;height:16px;accent-color:#1B1E1A"><span><strong data-i18n="rAdmin"></strong><span data-i18n="rAdminHelp" style="font-size:12px;color:#585D55"></span></span></label>
-                <div class="option-extra field" id="admin-extra">
-                  <label for="who" style="font-size:12px" data-i18n="yourName">Il tuo nome</label>
-                  <input id="who" class="input" type="text" maxlength="80" data-i18n-ph="yourNamePh" style="min-height:40px">
-                </div>
-              </div>
-              <label class="option"><input type="radio" name="route" value="github"><span><strong data-i18n="rGithub"></strong><span data-i18n="rGithubHelp"></span></span></label>
-            </div>
-          </fieldset>
-
-          <label class="consent"><input type="checkbox" id="consent" required><span data-i18n="consent"></span></label>
-
-          <div class="form-actions">
-            <a class="btn" href="{{BASE}}" data-i18n="cancel">Annulla</a>
-            <button type="submit" class="btn btn-primary" id="send"></button>
-          </div>
+      <div id="details" hidden class="form">
+        <div class="file-chip">
+          <span class="file-badge">GPX</span>
+          <div><strong id="file-name"></strong><span class="mono muted" style="font-size:12px" id="file-info"></span></div>
+          <button type="button" class="btn" id="replace" data-i18n="replace">Sostituisci</button>
         </div>
+
+        <section class="box send-box" aria-labelledby="send-h">
+          <h2 id="send-h" tabindex="-1" class="display" style="font-size:28px" data-i18n="sendTitle">Invia la traccia</h2>
+          <p data-i18n="sendIntro"></p>
+          <div id="admin-ok" class="form" style="gap:10px">
+            <span class="email-addr mono" id="admin-email"></span>
+            <div class="actions">
+              <button type="button" class="btn" id="copy-email">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                <span data-i18n="copyEmail">Copia indirizzo</span>
+              </button>
+              <a class="btn btn-primary" id="mailto" href="#">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                <span data-i18n="writeEmail">Scrivi l’email</span>
+              </a>
+            </div>
+          </div>
+          <p id="admin-missing" class="alert alert-error" hidden data-i18n="adminMissing"></p>
+          <div>
+            <strong data-i18n="mailIncludeTitle">Nell’email scrivi:</strong>
+            <ul class="checklist">
+              <li data-i18n="mailInclude1"></li>
+              <li data-i18n="mailInclude2"></li>
+              <li data-i18n="mailInclude3"></li>
+            </ul>
+            <p class="attach-reminder" data-i18n="attachReminder"></p>
+          </div>
+          <div class="clean-box">
+            <strong data-i18n="cleanTitle">Consigliato: allega la copia pulita</strong>
+            <p class="help" data-i18n="cleanText"></p>
+            <button type="button" class="btn" id="clean">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="M6 10l6 6 6-6"/><path d="M4 20h16"/></svg>
+              <span data-i18n="cleanButton">Scarica la copia pulita</span>
+            </button>
+          </div>
+          <p class="help"><span data-i18n="ghLine"></span> <a id="gh-link" href="#" target="_blank" rel="noopener">GitHub</a></p>
+        </section>
       </div>
-    </form>
+    </div>
 
     <section class="box preview" aria-labelledby="pv-h">
       <div class="box-head"><h2 id="pv-h" class="display" data-i18n="preview">Anteprima</h2><span class="help" data-i18n="previewNote"></span></div>

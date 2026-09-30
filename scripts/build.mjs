@@ -80,7 +80,7 @@ async function buildTrack(file) {
   const dirty = [...new Set([...raw.matchAll(/<(?:[\w.-]+:)?(time|extensions|email)\b/gi)].map((m) => m[1].toLowerCase()))];
   if (dirty.length) {
     const what = dirty.map((d) => ({ time: 'timestamps', extensions: 'sensor/device data', email: 'an email address' }[d])).join(', ');
-    errors.push(`${file}: contains ${what}. Replace it with the cleaned file: open the site's "Proponi una traccia" page, load this GPX and use the file it downloads.`);
+    errors.push(`${file}: contains ${what}. Replace it with the cleaned copy: open the site's "Proponi una traccia" page, load this GPX and click "Scarica la copia pulita".`);
     return null;
   }
   let gpx;
