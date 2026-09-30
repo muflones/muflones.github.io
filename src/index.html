@@ -51,6 +51,7 @@
       <button type="button" data-filter="mid" aria-pressed="false" data-i18n="fMid">25–60 km</button>
       <button type="button" data-filter="ultra" aria-pressed="false" data-i18n="fUltra">Ultra</button>
     </div>
+    <p class="fineprint" id="map-note" hidden></p>
     <ul class="cards" id="cards" aria-live="polite"></ul>
     <a class="drop-cta" href="{{BASE}}proponi/">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#585D55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
@@ -68,6 +69,7 @@
     </div>
     <div class="map-panel map-legend" aria-hidden="true">
       <span><i class="legend-line"></i><span data-i18n="legendSelected"></span></span>
+      <span><i class="legend-multi"></i><span data-i18n="legendOthers"></span></span>
       <span><i class="legend-dot"></i><span data-i18n="legendStarts"></span></span>
       <span><i class="legend-dash"></i><span id="legend-area"></span></span>
     </div>

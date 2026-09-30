@@ -11,9 +11,14 @@ const mapBox = document.getElementById('home-map');
 const narrow = window.matchMedia('(max-width: 900px)');
 let M = null;            // { map, layers }
 let selLayer = null;     // selected track line
-let ctxLayer = null;     // faint lines of other tracks when zoomed in
+let linesLayer = null;   // all other tracks on the map
 let startLayer = null;   // start markers
 let homeBounds = null;
+
+// One colour per track (the selected one is always drawn in the accent orange).
+const PALETTE = ['#1F4E79', '#6D28D9', '#0F766E', '#BE185D', '#4D7C0F', '#334155', '#0369A1', '#9F1239'];
+const colorOf = (slug) => PALETTE[Math.max(0, state.tracks.findIndex((x) => x.slug === slug)) % PALETTE.length];
+const mapCap = () => state.site?.mapMaxTracks ?? 20;
 
 const FILTERS = {
   all: () => true,
@@ -28,6 +33,22 @@ function visible() {
     (!q || [tr.name, tr.author, ...tr.tags].some((s) => (s || '').toLowerCase().includes(q))));
 }
 
+// Tracks drawn on the map: what the list shows, most recent first, up to the cap — plus the selected one.
+function onMap() {
+  const list = visible();
+  const shown = list.slice(0, mapCap());
+  const sel = state.tracks.find((x) => x.slug === state.selected);
+  if (sel && !shown.includes(sel)) shown.push(sel);
+  return { shown, total: list.length };
+}
+
+function renderMapNote() {
+  const note = document.getElementById('map-note');
+  const { total } = onMap();
+  note.hidden = total <= mapCap();
+  note.textContent = t('mapCapNote', { cap: mapCap(), n: total });
+}
+
 // ---------- list ----------
 function renderCount() {
   const n = state.tracks.length;
@@ -39,7 +60,7 @@ function renderCount() {
 function card(tr) {
   const s = tr.stats;
   const isSel = state.selected === tr.slug;
-  const color = isSel ? COLORS.accent : COLORS.blue;
+  const color = isSel ? COLORS.accent : colorOf(tr.slug);
   const meta = [tr.author ? t('byAuthor', { author: tr.author }) : null, tr.added ? t('addedOn', { date: fmtDate(tr.added) }) : null].filter(Boolean).join(' · ');
   const body = [
     el('span', { class: 'card-top' },
@@ -86,8 +107,6 @@ function initMap() {
   reset.style.top = '112px';
   mapBox.append(reset);
   onLangChange(() => { reset.setAttribute('aria-label', t('resetView', { place: h.name })); reset.title = t('resetView', { place: h.name }); });
-
-  M.map.on('zoomend', drawContext);
 }
 
 // Group tracks whose starts are within ~300 m, so the overview shows one numbered marker per start.
@@ -104,10 +123,16 @@ function drawStarts() {
   const L = window.L;
   startLayer?.remove();
   startLayer = L.layerGroup();
-  for (const g of groupStarts(visible())) {
+  for (const g of groupStarts(onMap().shown)) {
     const hasSel = g.tracks.some((x) => x.slug === state.selected);
     const label = g.tracks.length > 1 ? t('startsHere', { n: g.tracks.length }) : t('startsHereOne', { name: g.tracks[0].name });
-    const m = divMarker(g.at, 'start-pin' + (hasSel ? ' is-selected' : ''), String(g.tracks.length), { size: [36, 36], anchor: [18, 18], interactive: true, keyboard: true, title: label, z: 500 });
+    // A shared start gets a numbered pin; a single start is a small dot in the track's colour.
+    const m = g.tracks.length > 1
+      ? divMarker(g.at, 'start-pin' + (hasSel ? ' is-selected' : ''), String(g.tracks.length), { size: [36, 36], anchor: [18, 18], interactive: true, keyboard: true, title: label, z: 500 })
+      : window.L.marker(g.at, {
+        icon: window.L.divIcon({ html: el('div', { class: 'start-dot', style: { background: hasSel ? COLORS.accent : colorOf(g.tracks[0].slug) } }), className: '', iconSize: [18, 18], iconAnchor: [9, 9] }),
+        keyboard: true, title: label, riseOnHover: true, zIndexOffset: hasSel ? 600 : 400,
+      });
     if (g.tracks.length === 1) {
       m.on('click', () => select(g.tracks[0].slug));
     } else {
@@ -120,15 +145,18 @@ function drawStarts() {
   startLayer.addTo(M.map);
 }
 
-function drawContext() {
+function drawLines() {
   const L = window.L;
-  ctxLayer?.remove();
-  ctxLayer = null;
-  if (M.map.getZoom() < 11) return; // overview stays clean: only the selected track is drawn
-  ctxLayer = L.layerGroup(visible().filter((tr) => tr.slug !== state.selected)
-    .map((tr) => L.polyline(tr.line, { color: COLORS.blue, weight: 2.5, opacity: 0.55, interactive: true })
-      .on('click', () => select(tr.slug)).bindTooltip(el('span', { text: tr.name }), { sticky: true })));
-  ctxLayer.addTo(M.map);
+  linesLayer?.remove();
+  const layers = [];
+  for (const tr of onMap().shown) {
+    if (tr.slug === state.selected) continue;
+    layers.push(L.polyline(tr.line, { color: '#FFFFFF', weight: 5, opacity: 0.6, interactive: false }));
+    layers.push(L.polyline(tr.line, { color: colorOf(tr.slug), weight: 2.5, opacity: 0.9, lineJoin: 'round' })
+      .on('click', () => select(tr.slug))
+      .bindTooltip(el('span', { text: `${tr.name} · ${fmtKm(tr.stats.distance)} km` }), { sticky: true }));
+  }
+  linesLayer = L.layerGroup(layers).addTo(M.map);
   selLayer?.eachLayer((l) => l.bringToFront());
 }
 
@@ -164,15 +192,17 @@ function renderPanel(tr) {
 function select(slug, { fit = false } = {}) {
   state.selected = slug;
   renderList();
-  drawStarts();
+  cardsEl.querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest' });
+  drawLines();
   drawSelected(fit);
-  drawContext();
+  drawStarts();
 }
 
 function refresh() {
   renderCount();
   renderList();
-  if (M) { drawStarts(); drawContext(); drawSelected(false); }
+  renderMapNote();
+  if (M) { drawLines(); drawSelected(false); drawStarts(); }
 }
 
 // ---------- controls ----------

@@ -75,8 +75,13 @@ async function buildTrack(file) {
     return null;
   }
   const raw = await readFile(path, 'utf8');
-  if (/<(?:\w+:)?(time|extensions)\b/i.test(raw)) {
-    warnings.push(`${file}: contains timestamps or sensor data — they are removed from the site download, but the original is public in the repository. Prefer the cleaned file from the submit page.`);
+  // Files in tracks/ are public in the repository, so they must already be clean:
+  // no timestamps, no sensor/device data (heart rate, cadence…), no email addresses.
+  const dirty = [...new Set([...raw.matchAll(/<(?:[\w.-]+:)?(time|extensions|email)\b/gi)].map((m) => m[1].toLowerCase()))];
+  if (dirty.length) {
+    const what = dirty.map((d) => ({ time: 'timestamps', extensions: 'sensor/device data', email: 'an email address' }[d])).join(', ');
+    errors.push(`${file}: contains ${what}. Replace it with the cleaned file: open the site's "Proponi una traccia" page, load this GPX and use the file it downloads.`);
+    return null;
   }
   let gpx;
   try {
@@ -221,6 +226,7 @@ await writeFile(join(OUT, 'data', 'index.json'), JSON.stringify(index));
 await writeFile(join(OUT, 'data', 'site.json'), JSON.stringify({
   siteName: config.siteName, siteUrl: config.siteUrl, basePath: BASE, repo: config.repo, branch: config.branch,
   adminEmail: config.adminEmail, home: config.home, limits: config.limits,
+  mapMaxTracks: Number.isInteger(config.mapMaxTracks) && config.mapMaxTracks > 0 ? config.mapMaxTracks : 20,
 }));
 
 // ---------- report ----------

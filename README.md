@@ -12,12 +12,14 @@ and get distance, climbing, climbs and the elevation profile. Italian first, wit
 ## Come aggiungere una traccia (per gli amministratori)
 
 1. Ricevi il file `.gpx` (dalla pagina «Proponi una traccia» arriva già pulito e con un nome corretto, es. `giro-del-lago.gpx`).
-2. Su GitHub apri la cartella **`tracks/`** → **Add file → Upload files** → trascina il file → **Commit changes**.
-3. Aspetta circa un minuto: la traccia è online su `https://muflones.github.io/tracce/<nome-del-file>/`.
+2. Su GitHub apri la cartella **`tracks/`** → **Add file → Upload files** → trascina il file.
+3. In fondo scegli **«Create a new branch for this commit and start a pull request»** → **Propose changes** → **Create pull request**.
+4. Aspetta il controllo automatico (circa 20 secondi). Se è verde ✅, premi **Merge pull request**.
+5. Dopo circa un minuto la traccia è online su `https://muflones.github.io/tracce/<nome-del-file>/`.
 
-Se qualcosa non va, nella scheda **Actions** vedrai una ❌ con la spiegazione: il sito resta com'era finché il problema non è risolto.
+Se il controllo è rosso ❌, apri **Details**: la spiegazione è in cima. Il caso più comune è un file con orari o dati del sensore (frequenza cardiaca…): caricalo nella pagina «Proponi una traccia» del sito e usa il file pulito che scarica. Finché il controllo non è verde la pull request non si può unire, quindi nessun file «sporco» finisce nel sito.
 
-**Pull request dai soci:** la scheda *Actions* della pull request mostra distanza, dislivello e autore della traccia. Se è tutto a posto, **Merge**.
+**Pull request dai soci:** funzionano allo stesso modo: controllo verde → **Merge**.
 
 **Correggere nome, autore, tag o note:** crea accanto al file un `tracks/<nome>.json` (vedi `tracks/fusky-30k-2026.json`). I valori del `.json` hanno la precedenza su quelli del GPX. Le note possono essere in due lingue:
 
@@ -58,8 +60,11 @@ Regole per i nomi dei file: solo lettere minuscole, numeri e trattini, estension
    git push -u origin main
    ```
 5. **Turn on Pages:** repository *Settings → Pages → Build and deployment → Source: GitHub Actions*.
-6. **Protect pull requests from strangers:** *Settings → Actions → General*, under the approval setting for fork pull request workflows, choose the strictest option (approval required for all external contributors).
-7. **Set the admin email** in `config.json` (`adminEmail`) — it is used by the submit page and the footer. It is currently a placeholder.
+6. **Make the check mandatory** so nothing un-checked reaches `main`: *Settings → Rules → Rulesets → New ruleset → New branch ruleset*.
+   - Name: `main`, Enforcement: **Active**, Target branches: **Include default branch**. Leave the bypass list empty, so admins go through the check too.
+   - Tick **Restrict deletions**, **Block force pushes**, **Require a pull request before merging** (required approvals: 0 is fine), and **Require status checks to pass** → add the check called **`check`**. It appears in the list once it has run on a pull request; if it isn't there yet, open a test pull request first, then come back and add it.
+7. **Protect pull requests from strangers:** *Settings → Actions → General*, under the approval setting for fork pull request workflows, choose the strictest option (approval required for all external contributors).
+8. **Set the admin email** in `config.json` (`adminEmail`) — it is used by the submit page and the footer.
 
 Every push to `main` rebuilds and publishes the site (`.github/workflows/deploy.yml`). Pull requests are checked with a read-only token and no secrets (`.github/workflows/check.yml`).
 
@@ -78,12 +83,12 @@ src/               pages, styles and scripts
   js/lib/gpx.js    GPX reader/writer — no XML parser, so no entity tricks
   js/lib/stats.js  distance, climbing, climbs, gradient, simplification
 scripts/build.mjs  validates and cleans every track, writes dist/
-config.json        address, admin email, home area (Levico Terme, 40 km)
+config.json        address, admin email, home area (Levico Terme, 40 km), max tracks on the home map (20)
 ```
 
 The build, for every `tracks/*.gpx`:
 
-- checks the name, size (≤ 10 MB) and points (≤ 200,000); a broken file stops the deploy;
+- checks the name, size (≤ 10 MB), points (≤ 200,000) and that the file is clean (no timestamps, sensor data or emails); a problem stops the deploy;
 - works out the stats with the same code the submit page uses, so previews match the site;
 - writes a **cleaned GPX** for download (points and elevation only — no times, heart rate or device data);
 - writes a small `data/index.json` for the home page (simplified lines, ~300 points per track) and one detailed file per track, so the home page never downloads full GPX files;
@@ -94,7 +99,7 @@ The “added” date comes from the date the file was first committed. Climbing 
 ## Privacy and security
 
 - Uploaded files are read only in the visitor's browser; the submit page produces a cleaned file before anything is sent.
-- The original files in `tracks/` are public in this repository. The build warns when a file contains timestamps or sensor data — prefer the cleaned file from the submit page.
+- The files in `tracks/` are public in this repository, so the check **fails** on any GPX that contains timestamps, sensor/device data (`<extensions>`) or an email address. With the ruleset above, such a file can't be merged into `main`.
 - All text from GPX files is inserted as plain text, never as HTML. Links are only allowed when they start with `https://`.
 - Fonts and the map library are hosted with the site: visitors only contact GitHub and the map tile servers. A Content-Security-Policy restricts everything else.
 - No analytics and no cookies. Only the chosen language is remembered in the browser.

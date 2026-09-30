@@ -5,6 +5,7 @@
   "repo": "muflones/muflones.github.io",
   "branch": "main",
   "adminEmail": "muflones@proton.me",
+  "mapMaxTracks": 20,
   "home": {
     "name": "Levico Terme",
     "lat": 46.0106,
