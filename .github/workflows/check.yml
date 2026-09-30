@@ -1,0 +1,22 @@
+# Checks the tracks in a pull request and shows their stats in the run summary.
+# Runs with a read-only token and no secrets, so a pull request from a fork can't change anything.
+name: Controlla le tracce
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Check tracks
+        run: node scripts/build.mjs --check

@@ -1,0 +1,13 @@
+{
+  "name": "muflones-sito",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sito statico delle tracce del Muflones Trail Running Club",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

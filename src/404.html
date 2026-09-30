@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="base-path" content="{{BASE}}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Pagina non trovata — Muflones</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="{{BASE}}img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{{BASE}}vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="{{BASE}}css/style.css">
+<script src="{{BASE}}vendor/leaflet/leaflet.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
+<header class="site-header">
+  <a class="brand" href="{{BASE}}">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 L11 11 L15 17 L19 9 L27 24 Z"/><path d="M19 9 C22 6 25 7 25 11"/></svg>
+    <span class="brand-name">Muflones</span>
+    <span class="brand-sub" data-i18n="brandSub">Trail Running Club</span>
+  </a>
+  <nav class="nav" aria-label="Menu">
+    <a href="{{BASE}}"  data-i18n="navTracks">Percorsi</a>
+  </nav>
+  <div class="header-end">
+    <div class="lang" role="group" data-i18n-aria="langGroup" aria-label="Lingua / Language">
+      <button type="button" lang="it" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" lang="en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-primary" href="{{BASE}}proponi/"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M6 10l6-6 6 6"/><path d="M4 20h16"/></svg><span class="header-cta-label" data-i18n="submitCta">Proponi una traccia</span></a>
+  </div>
+</header>
+<main id="main" class="notfound">
+  <h1 class="display" style="font-size:56px" data-i18n="nfTitle">Pagina non trovata</h1>
+  <p data-i18n="nfText"></p>
+  <p><a class="btn btn-primary" href="{{BASE}}" data-i18n="nfBack">Torna alle tracce</a></p>
+</main>
+<script type="module" src="{{BASE}}js/page.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "siteName": "Muflones Trail Running Club",
+  "basePath": "/",
+  "siteUrl": "https://muflones.github.io",
+  "repo": "muflones/muflones.github.io",
+  "branch": "main",
+  "adminEmail": "muflones@proton.me",
+  "home": {
+    "name": "Levico Terme",
+    "lat": 46.0106,
+    "lon": 11.3006,
+    "radiusKm": 40
+  },
+  "limits": {
+    "maxFileMB": 10,
+    "maxPoints": 200000
+  }
+}

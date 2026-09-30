@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="base-path" content="{{BASE}}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>{{TITLE}} — Muflones</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<meta name="track-slug" content="{{SLUG}}">
+<link rel="canonical" href="{{CANONICAL}}">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:type" content="website">
+<link rel="icon" href="{{BASE}}img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{{BASE}}vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="{{BASE}}css/style.css">
+<script src="{{BASE}}vendor/leaflet/leaflet.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Vai al contenuto</a>
+<header class="site-header">
+  <a class="brand" href="{{BASE}}">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 L11 11 L15 17 L19 9 L27 24 Z"/><path d="M19 9 C22 6 25 7 25 11"/></svg>
+    <span class="brand-name">Muflones</span>
+    <span class="brand-sub" data-i18n="brandSub">Trail Running Club</span>
+  </a>
+  <nav class="nav" aria-label="Menu">
+    <a href="{{BASE}}"  data-i18n="navTracks">Percorsi</a>
+  </nav>
+  <div class="header-end">
+    <div class="lang" role="group" data-i18n-aria="langGroup" aria-label="Lingua / Language">
+      <button type="button" lang="it" data-lang="it" aria-pressed="true">IT</button>
+      <button type="button" lang="en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a class="btn btn-primary" href="{{BASE}}proponi/"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M6 10l6-6 6 6"/><path d="M4 20h16"/></svg><span class="header-cta-label" data-i18n="submitCta">Proponi una traccia</span></a>
+  </div>
+</header>
+<main id="main" class="page" aria-busy="true">
+  <nav class="crumbs" data-i18n-aria="crumbs" aria-label="Percorso di navigazione"><a href="{{BASE}}" data-i18n="homeTitle">Tracce del club</a><span aria-hidden="true">/</span><span>{{TITLE}}</span></nav>
+  <div class="title-row">
+    <div class="title-block">
+      <h1 class="display" id="t-name">{{TITLE}}</h1>
+      <div class="meta-row" id="t-meta"></div>
+      <p class="credit" id="t-credit"></p>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn" id="t-copy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+        <span data-i18n="copyLink">Copia link</span>
+      </button>
+      <a class="btn btn-primary" id="t-download" href="{{BASE}}tracks/{{SLUG}}.gpx" download="{{SLUG}}.gpx">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="M6 10l6 6 6-6"/><path d="M4 20h16"/></svg>
+        <span data-i18n="download">Scarica GPX</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="stats" id="t-stats"></div>
+
+  <div class="split">
+    <section class="track-map" data-i18n-aria="routeMap" aria-label="Mappa del percorso">
+      <div id="map"></div>
+      <div class="map-panel map-style" role="group" data-i18n-aria="mapStyle" aria-label="Stile mappa">
+        <button type="button" data-layer="topo" aria-pressed="true" data-i18n="mapTopo">Topo</button>
+        <button type="button" data-layer="streets" aria-pressed="false" data-i18n="mapStreets">Strade</button>
+      </div>
+      <div class="map-panel map-legend" id="t-legend" aria-hidden="true"></div>
+    </section>
+    <section class="box" aria-labelledby="climbs-h" id="t-climbs-box">
+      <div class="box-head"><h2 id="climbs-h" class="display" data-i18n="climbs">Salite</h2><span class="help" id="t-climbs-count"></span></div>
+      <div id="t-climbs"></div>
+      <div class="gradient" id="t-gradient"></div>
+    </section>
+  </div>
+
+  <section class="box profile-box" aria-labelledby="prof-h" id="t-profile-box">
+    <div class="box-head">
+      <h2 id="prof-h" class="display" data-i18n="profile">Profilo altimetrico</h2>
+      <span class="help"><i class="legend-swatch"></i><span data-i18n="profileLegend"></span> · <span data-i18n="profileHint"></span></span>
+    </div>
+    <div class="profile" id="t-profile"></div>
+  </section>
+
+  <section class="box" id="t-notes-box" hidden aria-labelledby="notes-h">
+    <h2 id="notes-h" class="display" style="font-size:26px" data-i18n="notes">Note</h2>
+    <p class="notes" id="t-notes"></p>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="cols">
+    <section><h2 data-i18n="fAttrTitle">Attribuzione</h2><p data-i18n="fAttr"></p></section>
+    <section><h2 data-i18n="fMountainTitle">In montagna</h2><p data-i18n="fMountain"></p></section>
+    <section><h2 data-i18n="fMapsTitle">Mappe</h2><p><span data-i18n="fMaps"></span> <a href="mailto:{{ADMIN_EMAIL}}" data-i18n="fError">Scrivici</a></p></section>
+  </div>
+</footer>
+<script type="module" src="{{BASE}}js/track.js"></script>
+</body>
+</html>
