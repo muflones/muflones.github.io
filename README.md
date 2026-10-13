@@ -37,6 +37,10 @@ Se il controllo è rosso ❌, apri **Details**: la spiegazione è in cima. Il ca
 
 **Togliere una traccia:** elimina il `.gpx` (e l'eventuale `.json`) dalla cartella `tracks/`.
 
+**Registro:** ogni volta che aggiungi, modifichi o togli una traccia, aggiungi una riga a [`TRACCE.md`](TRACCE.md). Le modifiche al funzionamento del sito vanno in [`CHANGELOG.md`](CHANGELOG.md).
+
+Il sito raccoglie **percorsi del club e personali**: le tracce di gare organizzate (es. FUSKY, DXT) non vanno pubblicate.
+
 Regole per i nomi dei file: solo lettere minuscole, numeri e trattini, estensione `.gpx` minuscola.
 
 ---
