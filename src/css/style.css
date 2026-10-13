@@ -43,6 +43,7 @@ h1, h2, h3, p { margin: 0; }
 .muted { color: var(--muted); }
 [hidden] { display: none !important; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+[id] { scroll-margin-top: 80px; } /* jump links land below the sticky header */
 
 .skip { position: absolute; left: 8px; top: -60px; z-index: 2000; padding: 10px 14px; background: var(--surface); border-radius: 8px; }
 .skip:focus { top: 8px; }
@@ -130,6 +131,11 @@ textarea.input { padding: 10px 12px; resize: vertical; min-height: 70px; }
 .selected .sel-actions { display: flex; flex-direction: column; gap: 8px; }
 .selected .sel-close { position: absolute; right: 8px; top: 8px; width: 32px; height: 32px; border: 0; background: transparent; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .home-map.has-selection .map-legend { bottom: 190px; }
+
+.more-btn { width: 100%; }
+.to-list { display: none; }
+.map-hint { position: absolute; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(27, 30, 26, 0.55); color: #fff; font: 600 16px var(--sans); text-align: center; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.map-hint.is-visible { opacity: 1; }
 
 /* Leaflet markers */
 .start-pin { width: 36px; height: 36px; border-radius: 50%; border: 3px solid #fff; background: var(--ink); color: #fff; font: 600 14px/30px var(--mono); text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
@@ -272,10 +278,14 @@ fieldset legend { margin-bottom: 8px; }
   .brand-sub, .nav { display: none; }
   .header-cta-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .site-header .btn { padding: 0 12px; }
-  .home { grid-template-columns: minmax(0, 1fr); height: auto; }
-  .home-list { border-right: 0; overflow: visible; padding: 20px 16px; }
-  .home-map { height: 70vh; }
-  .selected { flex-wrap: wrap; gap: 12px; padding: 14px; }
+  /* Phones: map first, kept to about half the screen so there is always page to scroll past it. */
+  .home { display: flex; flex-direction: column; height: auto; }
+  .home-map { order: -1; min-height: 0; padding-bottom: 4px; }
+  #map { position: relative; height: 52vh; height: 52svh; min-height: 260px; max-height: 480px; }
+  .home-map .map-legend { display: none; }
+  .home-list { border-right: 0; overflow: visible; padding: 16px 16px 24px; border-top: 1px solid var(--line); }
+  .selected { position: static; margin: 12px 16px 0; flex-wrap: wrap; gap: 12px; padding: 14px 52px 14px 14px; }
+  .to-list { display: flex; margin: 12px 16px 8px; }
   .selected .sel-prof { display: none; }
   .home-map.has-selection .map-legend { display: none; }
   .page { padding: 16px 16px 40px; gap: 20px; }

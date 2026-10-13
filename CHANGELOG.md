@@ -2,6 +2,13 @@
 
 Changes to how the site works. Newest first. Track additions and removals are logged in [TRACCE.md](TRACCE.md).
 
+## 1.4.0 — 2026-10-13
+
+### Changed
+- Home page on phones: the map comes first, at about half the screen height, so there is always page to scroll past it. A "Vai all’elenco delle tracce" button below the map jumps to the list.
+- On touch screens one finger scrolls the page and two fingers move the map (a hint appears if you try with one finger). Applies to every map on the site.
+- The track list shows 10 tracks, with a "Mostra altre / Show more" button that adds 10 at a time. Search and filters start again from 10; a track picked on the map is always shown in the list.
+
 ## 1.3.0 — 2026-10-13
 
 ### Changed

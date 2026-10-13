@@ -52,7 +52,8 @@
       <button type="button" data-filter="ultra" aria-pressed="false" data-i18n="fUltra">Ultra</button>
     </div>
     <p class="fineprint" id="map-note" hidden></p>
-    <ul class="cards" id="cards" aria-live="polite"></ul>
+    <ul class="cards" id="cards"></ul>
+    <div id="more-box"></div>
     <a class="drop-cta" href="{{BASE}}proponi/">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#585D55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
       <strong data-i18n="dropTitle">Hai un percorso da condividere?</strong>
@@ -74,6 +75,10 @@
       <span><i class="legend-dash"></i><span id="legend-area"></span></span>
     </div>
     <div class="map-panel selected" id="selected" hidden></div>
+    <a class="btn to-list" id="to-list" href="#home-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
+      <span id="to-list-label"></span>
+    </a>
   </section>
 </main>
 <script type="module" src="{{BASE}}js/home.js"></script>

@@ -131,6 +131,22 @@ export function makeMap(node, { interactive = true } = {}) {
     }),
   };
   layers.topo.addTo(map);
+
+  // On touch screens one finger scrolls the page, so the map never traps you;
+  // two fingers move and zoom the map.
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    map.dragging.disable();
+    const hint = el('div', { class: 'map-hint', 'aria-hidden': 'true' });
+    map.getContainer().append(hint);
+    let timer = null;
+    map.getContainer().addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1) return;
+      hint.textContent = t('twoFingers');
+      hint.classList.add('is-visible');
+      clearTimeout(timer);
+      timer = setTimeout(() => hint.classList.remove('is-visible'), 1200);
+    }, { passive: true });
+  }
   const zoom = L.control.zoom({ position: 'topright', zoomInTitle: t('zoomIn'), zoomOutTitle: t('zoomOut') }).addTo(map);
   onLangChange(() => {
     const c = zoom.getContainer();

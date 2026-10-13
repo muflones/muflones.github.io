@@ -4,7 +4,8 @@ import { sparkline } from './profile.js';
 
 boot();
 
-const state = { site: null, tracks: [], filter: 'all', query: '', selected: null };
+const PAGE = 10; // cards shown at first, and added by each "show more"
+const state = { site: null, tracks: [], filter: 'all', query: '', selected: null, listLimit: PAGE };
 const cardsEl = document.getElementById('cards');
 const selectedEl = document.getElementById('selected');
 const mapBox = document.getElementById('home-map');
@@ -80,9 +81,21 @@ function card(tr) {
   return el('li', {}, node);
 }
 
-function renderList() {
+function renderList(focusFrom = null) {
   const list = visible();
-  cardsEl.replaceChildren(...(list.length ? list.map(card) : [el('li', { class: 'empty', text: state.tracks.length ? t('noResults') : t('homeCountNone') })]));
+  // Make sure a track selected on the map is in the visible part of the list.
+  const selIdx = list.findIndex((x) => x.slug === state.selected);
+  if (selIdx >= state.listLimit) state.listLimit = Math.ceil((selIdx + 1) / PAGE) * PAGE;
+  const shown = list.slice(0, state.listLimit);
+  cardsEl.replaceChildren(...(list.length ? shown.map(card) : [el('li', { class: 'empty', text: state.tracks.length ? t('noResults') : t('homeCountNone') })]));
+  const left = list.length - shown.length;
+  document.getElementById('more-box').replaceChildren(...(left > 0 ? [el('button', {
+    type: 'button', class: 'btn more-btn',
+    onclick: () => { const from = state.listLimit; state.listLimit += PAGE; renderList(from); },
+  }, t('showMore', { n: left }))] : []));
+  document.getElementById('to-list-label').textContent = t('toList', { n: list.length });
+  // After "show more", move keyboard focus to the first new card.
+  if (focusFrom != null) cardsEl.children[focusFrom]?.querySelector('.card')?.focus();
 }
 
 // ---------- map ----------
@@ -206,9 +219,10 @@ function refresh() {
 }
 
 // ---------- controls ----------
-document.getElementById('q').addEventListener('input', (e) => { state.query = e.target.value; refresh(); });
+document.getElementById('q').addEventListener('input', (e) => { state.query = e.target.value; state.listLimit = PAGE; refresh(); });
 document.querySelectorAll('.filters button').forEach((b) => b.addEventListener('click', () => {
   state.filter = b.dataset.filter;
+  state.listLimit = PAGE;
   document.querySelectorAll('.filters button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
   refresh();
 }));
