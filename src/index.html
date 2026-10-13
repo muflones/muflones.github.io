@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="base-path" content="{{BASE}}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Muflones — tracce del club</title>
 <meta name="description" content="Le tracce GPX del Muflones Trail Running Club: mappa, distanza, dislivello e profilo altimetrico.">
 <link rel="icon" href="{{BASE}}img/favicon.svg" type="image/svg+xml">
@@ -59,7 +59,7 @@
       <strong data-i18n="dropTitle">Hai un percorso da condividere?</strong>
       <span data-i18n="dropText"></span>
     </a>
-    <p class="fineprint" data-i18n="attributionShort"></p>
+    <p class="fineprint"><span data-i18n="attributionShort"></span> <span data-i18n="fStats"></span></p>
   </section>
 
   <section class="home-map" id="home-map" data-i18n-aria="mapLabel" aria-label="Mappa">
@@ -82,5 +82,6 @@
   </section>
 </main>
 <script type="module" src="{{BASE}}js/home.js"></script>
+{{ANALYTICS}}
 </body>
 </html>

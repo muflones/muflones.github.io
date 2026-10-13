@@ -87,7 +87,7 @@ src/               pages, styles and scripts
   js/lib/gpx.js    GPX reader/writer — no XML parser, so no entity tricks
   js/lib/stats.js  distance, climbing, climbs, gradient, simplification
 scripts/build.mjs  validates and cleans every track, writes dist/
-config.json        address, admin email, home area (Levico Terme, 40 km), max tracks on the home map (20)
+config.json        address, admin email, home area (Levico Terme, 40 km), max tracks on the home map (20), analytics token
 ```
 
 The build, for every `tracks/*.gpx`:
@@ -105,8 +105,8 @@ The “added” date comes from the date the file was first committed. Climbing 
 - The submit page only reads the file in the visitor's browser to preview it — nothing is uploaded. Members email the track to the admin address in `config.json`, ideally as the cleaned copy the page can download.
 - The files in `tracks/` are public in this repository, so the check **fails** on any GPX that contains timestamps, sensor/device data (`<extensions>`) or an email address. With the ruleset above, such a file can't be merged into `main`.
 - All text from GPX files is inserted as plain text, never as HTML. Links are only allowed when they start with `https://`.
-- Fonts and the map library are hosted with the site: visitors only contact GitHub and the map tile servers. A Content-Security-Policy restricts everything else.
-- No analytics and no cookies. Only the chosen language is remembered in the browser.
+- Fonts and the map library are hosted with the site: visitors only contact GitHub, the map tile servers and Cloudflare's analytics beacon. A Content-Security-Policy restricts everything else.
+- Visits are counted with Cloudflare Web Analytics: anonymous, no cookies. Set or remove the token in `config.json` → `analytics.cloudflareToken` (empty = no analytics). The dashboard is in your Cloudflare account under **Web Analytics**. Only the chosen language is remembered in the browser.
 
 ## Credits and licences
 

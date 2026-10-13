@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="base-path" content="{{BASE}}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>{{TITLE}} — Muflones</title>
 <meta name="description" content="{{DESCRIPTION}}">
 <meta name="track-slug" content="{{SLUG}}">
@@ -92,9 +92,10 @@
   <div class="cols">
     <section><h2 data-i18n="fAttrTitle">Attribuzione</h2><p data-i18n="fAttr"></p></section>
     <section><h2 data-i18n="fMountainTitle">In montagna</h2><p data-i18n="fMountain"></p></section>
-    <section><h2 data-i18n="fMapsTitle">Mappe</h2><p><span data-i18n="fMaps"></span> <a href="mailto:{{ADMIN_EMAIL}}" data-i18n="fError">Scrivici</a></p></section>
+    <section><h2 data-i18n="fMapsTitle">Mappe</h2><p><span data-i18n="fMaps"></span> <span data-i18n="fStats"></span> <a href="mailto:{{ADMIN_EMAIL}}" data-i18n="fError">Scrivici</a></p></section>
   </div>
 </footer>
 <script type="module" src="{{BASE}}js/track.js"></script>
+{{ANALYTICS}}
 </body>
 </html>

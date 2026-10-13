@@ -180,7 +180,13 @@ async function copySrc() {
 
 function baseVars() {
   const email = /^[^\s@<>"']+@[^\s@<>"']+\.[a-z]{2,}$/i.test(config.adminEmail || '') ? config.adminEmail : '';
-  return { BASE, SITE_NAME: escHtml(config.siteName), SITE_URL: escHtml(config.siteUrl), ADMIN_EMAIL: escHtml(email) };
+  // Cloudflare Web Analytics: added to every page only when a token is set in config.json.
+  const token = config.analytics?.cloudflareToken || '';
+  const ANALYTICS = /^[a-f0-9]{32}$/i.test(token)
+    ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${token}"}'></script>`
+    : '';
+  if (token && !ANALYTICS) warnings.push('config.json: analytics.cloudflareToken does not look like a Cloudflare token — analytics left out');
+  return { BASE, SITE_NAME: escHtml(config.siteName), SITE_URL: escHtml(config.siteUrl), ADMIN_EMAIL: escHtml(email), ANALYTICS };
 }
 
 // ---------- main ----------

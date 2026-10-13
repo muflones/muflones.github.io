@@ -6,6 +6,7 @@
   "branch": "main",
   "adminEmail": "muflones@proton.me",
   "mapMaxTracks": 20,
+  "analytics": { "cloudflareToken": "c47a716f198847e5ab3c4f5adb2e19e7" },
   "home": {
     "name": "Levico Terme",
     "lat": 46.0106,

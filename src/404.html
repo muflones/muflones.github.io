@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="base-path" content="{{BASE}}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.tile.opentopomap.org https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Pagina non trovata — Muflones</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="{{BASE}}img/favicon.svg" type="image/svg+xml">
@@ -38,5 +38,6 @@
   <p><a class="btn btn-primary" href="{{BASE}}" data-i18n="nfBack">Torna alle tracce</a></p>
 </main>
 <script type="module" src="{{BASE}}js/page.js"></script>
+{{ANALYTICS}}
 </body>
 </html>

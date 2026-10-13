@@ -2,6 +2,15 @@
 
 Changes to how the site works. Newest first. Track additions and removals are logged in [TRACCE.md](TRACCE.md).
 
+## 1.5.0 — 2026-10-13
+
+### Added
+- Visitor statistics with Cloudflare Web Analytics (free, anonymous, no cookies). The beacon is added to every page by the build when `analytics.cloudflareToken` is set in `config.json`; leave it empty to turn analytics off.
+- A line in the footer (and under the home list) telling visitors that visits are counted anonymously.
+
+### Changed
+- Content-Security-Policy now also allows Cloudflare's analytics script and endpoint.
+
 ## 1.4.0 — 2026-10-13
 
 ### Changed

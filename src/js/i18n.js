@@ -89,6 +89,7 @@ export const STRINGS = {
     fMapsTitle: 'Mappe',
     fMaps: 'Dati © OpenStreetMap contributors (ODbL). Stile OpenTopoMap (CC-BY-SA).',
     fError: 'Hai trovato un errore? Scrivici',
+    fStats: 'Contiamo le visite in forma anonima, senza cookie (Cloudflare Web Analytics).',
 
     submitTitle: 'Proponi una traccia',
     step1: '1 · Scegli il file', step2: '2 · Controlla l’anteprima', step3: '3 · Invialo per email',
@@ -217,6 +218,7 @@ export const STRINGS = {
     fMapsTitle: 'Maps',
     fMaps: 'Data © OpenStreetMap contributors (ODbL). Style OpenTopoMap (CC-BY-SA).',
     fError: 'Found a mistake? Let us know',
+    fStats: 'We count visits anonymously, without cookies (Cloudflare Web Analytics).',
 
     submitTitle: 'Submit a track',
     step1: '1 · Choose file', step2: '2 · Check the preview', step3: '3 · Email it',
