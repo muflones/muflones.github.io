@@ -7,6 +7,11 @@ Quando aggiungi o togli una traccia, aggiungi una riga qui nella stessa pull req
 
 ## 2026-10-13
 
+### Aggiunte
+| Traccia | File | Autore | Distanza · dislivello |
+|---|---|---|---|
+| Altopiano della Vigolana ring | `altopiano-della-vigolana-ring.gpx` | Roberto Doriguzzi Corin | 47,2 km · +3.209 m |
+
 ### Tolte — gare organizzate (il sito raccoglie solo percorsi del club e personali)
 | Traccia | File | Autore |
 |---|---|---|
